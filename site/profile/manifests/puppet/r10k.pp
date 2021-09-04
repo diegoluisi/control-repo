@@ -8,7 +8,7 @@ class profile::puppet::r10k {
     provider => 'puppet_gem',
     sources  => {
       'puppet' => {
-        'remote'  => 'git@github.com:dafiti-group/puppet.git',
+        'remote'  => 'git@github.com:diegoluisi/control-repo.git',
         'basedir' => '/etc/puppetlabs/code/environments',
     },
   }

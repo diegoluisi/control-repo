@@ -5,7 +5,7 @@ node 'puppetserver.hacklab' {
 }
 
 ## Puppet Client for Development
-node 'centos7.hacklab', 'debian7.hacklab', 'centos7.dafiti.local' {
+node 'centos7.hacklab', 'debian7.hacklab' {
    include role::puppet::test
 }
 
