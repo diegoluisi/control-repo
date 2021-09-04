@@ -1,0 +1,24 @@
+---
+# Profile MOTD
+profiles::motd::motd_content: "Authorized access only! \nAll actions Will be monitored and recorded \n \n"
+profiles::motd::issue_content: "Authorized access only! \nAll actions Will be monitored and recorded \n \n"
+profiles::motd::issue_net_content: "Authorized access only! \nAll actions Will be monitored and recorded \n \n"
+
+# Profile Users
+profile::users::Linux::provider: "useradd"
+
+profile::users::Linux::groups:
+  example:
+    ensure: present
+
+profile::users::Linux::users:
+  root:
+    password: "$1$saM2K.CR$M3TZ1z6NaMX7CnVqmFseh0"
+  example1:
+    comment: "Example Common"
+    groups: example
+
+profile::users::Linux::ssh_authorized_key:
+  example1@diegoluisi.eti.br:
+    user: 'example1'
+    key: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDugwZiHOz7tW6INsoe/a20T35daqJ+n3ATXfO4CnNzNvso3E1nX+Bq+TQWY4OZgcsoprBjovt0/hNnSaE2qYtJGHLA1TrhAlFY/iIJn2rc3M7NGYvLcBd+Ntn+w7x/M9MTiinte9biJJaRkPg1tEyRRvtjMBTbsfSa7mB71Nty8OX+fJSQS2vLDAVNSXag0OiUdp46hXpvJoC26nGqEkkNTL4aY+BFvsF4dmuN4mLsSy+Ijco/6RhUDYk7zD8monfhqzqJyN/5Gy4KGeyvpv3SRcLo+VFgRq9Qy+Mc3yUfKHxZTWdBaq7FGvDD5ut0uPXariPdApAPDn5mfJTxbJO3'

@@ -1,0 +1,6 @@
+*.swp
+*.rpmnew
+Gemfile.lock
+modules/*
+.vagrant/*
+

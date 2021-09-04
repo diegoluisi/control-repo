@@ -1,0 +1,15 @@
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+    fi
+
+    ENV=<%= @env %>
+    export PS1="\[\e[01;37m\][\[\e[0m\]\[\e[01;31m\]$ENV\[\e[0m\]\[\e[01;37m\]][\[\e[0m\]\[\e[01;31m\]\u\[\e[0m\]\[\e[01;37m\]@\h:\W]\$\[\e[0m\] "

@@ -1,0 +1,75 @@
+---
+profiles::puppet::agent::environment: 'production'
+
+profiles::puppet::agent::puppetmaster: 'puppetserver.hacklab'
+
+profiles::bashrc::environment: 'puppet-devel'
+
+profiles::puppet::master::autosign: true
+profiles::puppet::master::r10k_version: '2.5.1'
+profiles::puppet::master::puppetdb_server: 'puppetserver.hacklab'
+profiles::puppet::master::puppetdb_version: '5.2.8-1'
+profiles::puppet::master::server_version: 'latest'
+profiles::puppet::master::server_java_opts: '-Xms512m -Xmx512m'
+
+
+profiles::puppetdb::database_server_hostname: 'puppetserver.hacklab'
+profiles::puppetdb::puppetdb_server_hostname: 'puppetserver.hacklab'
+profiles::puppet::master::puppetdb_version: '5.2.8-1.el7'
+
+profiles::puppetdb::pgconf::name: 'puppetdb'
+profiles::puppetdb::pgconf::user: 'puppetdb'
+profiles::puppetdb::pgconf::pass: '2k3ZNQLGbbWdsU'
+profiles::puppetdb::pgconf::host: 'puppetserver.hacklab'
+
+profiles::puppetdb::node_ttl: '14d'
+profiles::puppetdb::report_ttl: '356d'
+profiles::puppetdb::store_usage: 15000
+profiles::puppetdb::temp_usage: 10000
+profiles::puppetdb::statements_cache_size: 0
+profiles::puppetdb::java_heap_mem: '1024'
+
+profiles::puppetdb::version: '5.2.8-1.el7'
+profiles::puppetdb::postgres_version: '9.6'
+profiles::puppetdb::postgres_package_version: '9.6.11-1PGDG.rhel7'
+
+profiles::puppetdb::database_server_hostname: 'puppetserver.hacklab'
+profiles::puppetdb::puppetdb_server_hostname: 'puppetserver.hacklab'
+
+profiles::puppetdb::pgconf::name: 'puppetdb'
+profiles::puppetdb::pgconf::user: 'puppetdb'
+profiles::puppetdb::pgconf::pass: '2k3ZNQLGbbWdsU'
+profiles::puppetdb::pgconf::host: 'puppetserver.hacklab'
+
+profiles::puppetdb::node_ttl: '14d'
+profiles::puppetdb::report_ttl: '356d'
+profiles::puppetdb::store_usage: 15000
+profiles::puppetdb::temp_usage: 10000
+profiles::puppetdb::statements_cache_size: 0
+profiles::puppetdb::java_heap_mem: '256'
+
+profiles::activemq::mco_password: 'u2rDUsy4hY240dl'
+
+profiles::mcollective::broker_host: 'puppetmq.hacklab'
+profiles::mcollective::broker_port: '61614'
+profiles::mcollective::broker_user: 'mcollective'
+profiles::mcollective::broker_password: 'u2rDUsy4hY240dl'
+profiles::mcollective::mco_loglevel: 'info'
+
+sudo::configs:
+    'vagrant':
+        'content'   : "vagrant ALL=(ALL) NOPASSWD: ALL"
+        'priority'  : 99
+
+
+profiles::puppet::master::server::xms: '512m'
+profiles::puppet::master::server::xmx: '512m'
+
+profiles::packages:
+  'bash-completion':
+    ensure: present
+  'vim-enhanced':
+    ensure: present
+
+profiles::zabbix::agent::::server: 'zabbix-server.hacklab.com'
+profiles::zabbix::agent::::server_active: 'zabbix-server.hacklab.com'
