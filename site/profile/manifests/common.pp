@@ -7,6 +7,8 @@ class profile::common {
     include profile::motd
     include profile::sudoers
     include profile::users
+    include profile::puppet::agent
+    include profile::packages
 
     #include profile::hosts
     #include profile::awscli
@@ -15,13 +17,10 @@ class profile::common {
     #include profile::ntp
     #include profile::timezone
     ##include profile::resolv
-    #include profile::packages
-    #include profile::puppet::agent
     #include profile::selinux
     ##include profile::snmp
     ##include profile::cloudhealth
     ##include profile::awscloudwatchagent
     #include profile::ssh
     #include profile::zabbix::agent # Fix Files
-    #include profile::instana
 }

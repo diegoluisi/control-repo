@@ -27,6 +27,11 @@ mod 'WhatsARanjit-vim', '0.3.0'
 mod 'puppetlabs-puppet_agent', '4.8.0'
 mod 'puppetlabs-inifile', '5.0.1'
 mod 'puppetlabs-apt', '6.0.0'
+### Forked
+#### Puppet Agent Config File 
+mod 'diegoluisi/puppet',
+  :git => 'https://github.com/diegoluisi/puppet-agent',
+    :ref => 'master'
 
 # Sudo Module
 mod 'saz-sudo', '5.0.0'
