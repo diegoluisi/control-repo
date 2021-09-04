@@ -1,0 +1,126 @@
+---
+profiles::puppet::agent::puppetmaster: 'puppetserver.hacklab'
+profiles::puppet::agent::environment: 'production'
+
+profiles::zabbix::agent::::server: "zabbix-teste"
+profiles::zabbix::agent::::server_active: "zabbix-teste"
+
+profiles::bashrc::environment: 'puppet-devel'
+
+yum::managed_repos:
+    - 'epel'
+
+profiles::resolv::::nameservers: 
+  - "10.10.20.11"
+
+profiles::ntp::servers: '10.80.20.15'
+
+sudo::configs:
+    'vagrant':
+        'content'   : "vagrant ALL=(ALL) NOPASSWD: ALL"
+        'priority'  : 99
+
+
+#### Freight Devel ####
+profiles::packages:
+  'deltarpm':
+    ensure: present
+
+
+profiles::filebeat::server: "dft-stg-monit-alk.dafiti.io"
+profiles::filebeat::hosts: "%{::hostname}"
+profiles::filebeat::prospector: "internal-apps"
+profiles::filebeat::doc_type: "log"
+profiles::filebeat::input_type: "log"
+profiles::filebeat::paths:
+  - '/shop/logs/*/*.log'
+profiles::filebeat::fields:
+  gfgapp: "internal-apps"
+  system: 'nginx'
+  log_type: 'log'
+
+profiles::newrelic::agent::newrelic_application_name: 'internal-apps.dafiti.io'
+
+profile::logrotate::rule::rule: "internal-apps"
+profile::logrotate::rule::path: '/shop/logs/*/*.log'
+profile::logrotate::rule::rotate: 5
+profile::logrotate::rule::rotate_every: 'day'
+profile::logrotate::rule::compress: true
+profile::logrotate::rule::dateext: true
+profile::logrotate::rule::ifempty: true
+profile::logrotate::rule::create: true
+profile::logrotate::rule::create_mode: '644'
+profile::logrotate::rule::create_owner: 'www-data'
+profile::logrotate::rule::create_group: 'www-data'
+
+
+php::ensure: present
+php::package_prefix: 'php71-php-'
+php::globals::php_version: 'php71'
+php::globals::rhscl_mode: 'remi'
+php::manage_repos: true
+php::fpm: true
+php::fpm::service_name: 'php71-php-fpm'
+php::fpm::pools:
+  alice:
+    listen: '/run/php-fpm/php-fpm-alice.sock'
+    listen_owner: nginx
+    listen_group: nginx
+    listen_mode: '0666'
+php::dev: true
+php::composer: true
+php::pear: true
+php::phpunit: false
+php::pdo: true
+php::extensions:
+  ldap: {}
+  pdo: {}
+  pdo_mysql: {}
+php::settings:
+  'Date/date.timezone': 'America/Sao_Paulo'
+php::fpm_user: 'nginx'
+php::fpm_group: 'nginx'
+php::fpm_mode: "0666"
+
+nginx::nginx_servers:
+  'dft-dev-alice01.aws.dafitidev.com.br':
+    www_root: '/shop/www/htdocs/alice/web/'
+    index_files:
+    - index.php
+    - index.html
+    - index.htm
+    location_custom_cfg:
+      try_files: '$uri $uri/ /index.php?$args'
+    access_log: /var/log/nginx/alice-access.log
+    error_log: /var/log/nginx/alice-error.log
+    client_max_body_size: '100M'
+    client_header_timeout: '1200'
+    client_body_timeout: '1200'
+
+nginx::nginx_locations:
+  'alice':
+    location: '~ "\.php$"'
+    server: dft-dev-alice01.aws.dafitidev.com.br
+    www_root: /shop/www/htdocs/alice/web/
+    location_custom_cfg:
+      try_files: '$uri /index.php =404'
+    fastcgi: "unix:/run/php-fpm/php-fpm-alice.sock"
+    fastcgi_index: index.php
+    fastcgi_params: "fastcgi_params"
+    fastcgi_param:
+      SCRIPT_FILENAME: '$realpath_root$fastcgi_script_name'
+      DOCUMENT_ROOT: '$realpath_root'
+      SCRIPT_NAME: '$fastcgi_script_name'
+      APPLICATION_ENV: 'live'
+    location_cfg_append:
+      fastcgi_read_timeout: 900
+      fastcgi_buffers: "16 16k"
+      fastcgi_buffer_size: "32k"
+      fastcgi_send_timeout: '1200'
+
+profiles::newrelic::agent::php::appname: 'alice.dafiti.local'
+profiles::app::alice::overlay::api::carmen_base_host: 'http://carmen-staging.aws.dafitidev.com.br'
+profiles::app::alice::overlay::api::carmen_api_key: '813758014ec9b52e15f0d4b2064e3c09'
+profiles::app::alice::overlay::api::tricae_image_server: 'https://tricaeth-a.akamaihd.net'
+
+instana_agent::instana_agent_key: 'TESTE-PUPPET-DEVEL'
